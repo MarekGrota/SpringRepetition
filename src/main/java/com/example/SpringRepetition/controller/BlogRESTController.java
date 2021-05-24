@@ -21,4 +21,11 @@ public class BlogRESTController {
         User user = new User(email,password,LocalDateTime.now(),false);
         userService.registerUser(user);
     }
+
+    @PutMapping("/user/registerConfirm")
+    public void registerConfirm(
+            @RequestParam("userId") long userId
+    ){
+        userService.activateUser(userId);
+    }
 }
