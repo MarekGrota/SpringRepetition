@@ -3,6 +3,7 @@ package com.example.SpringRepetition.controller;
 import com.example.SpringRepetition.model.User;
 import com.example.SpringRepetition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -27,5 +28,15 @@ public class BlogRESTController {
             @RequestParam("userId") long userId
     ){
         userService.activateUser(userId);
+    }
+
+    @DeleteMapping("/user/delete")
+    public void deleteUser(
+            @RequestParam("userId") long userId
+    ){
+        try {
+            userService.deleteUser(userId);
+        }catch (EmptyResultDataAccessException e){
+        }
     }
 }
