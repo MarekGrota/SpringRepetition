@@ -22,9 +22,9 @@ public class User {
     private String email;
     private String password;
     private LocalDateTime registrationDateTime;
-    private Boolean status;
+    private boolean status;
 
-    public User(String email, String password, LocalDateTime registrationDateTime, Boolean status) {
+    public User(String email, String password, LocalDateTime registrationDateTime, boolean status) {
         this.email = email;
         this.password = password;
         this.registrationDateTime = registrationDateTime;

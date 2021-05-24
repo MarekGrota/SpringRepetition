@@ -1,6 +1,7 @@
 package com.example.SpringRepetition.controller;
 
 import com.example.SpringRepetition.model.Category;
+import com.example.SpringRepetition.model.Post;
 import com.example.SpringRepetition.model.User;
 import com.example.SpringRepetition.service.PostService;
 import com.example.SpringRepetition.service.UserService;
@@ -25,37 +26,31 @@ public class BlogRESTController {
     public void registerUser(
             @RequestParam("email") String email,
             @RequestParam("password") String password
-    ){
-        User user = new User(email,password,LocalDateTime.now(),false);
+    ) {
+        User user = new User(email, password, LocalDateTime.now(), false);
         userService.registerUser(user);
     }
 
     @PutMapping("/user/registerConfirm")
-    public void registerConfirm(
-            @RequestParam("userId") long userId
-    ){
+    public void registerConfirm(@RequestParam("userId") long userId) {
         userService.activateUser(userId);
     }
 
     @DeleteMapping("/user/delete")
-    public void deleteUser(
-            @RequestParam("userId") long userId
-    ){
+    public void deleteUser(@RequestParam("userId") long userId) {
         try {
             userService.deleteUser(userId);
-        }catch (EmptyResultDataAccessException e){
+        } catch (EmptyResultDataAccessException e) {
         }
     }
 
     @GetMapping("/users")
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userService.getAllUsersOrderedByRegistrationDateTimeDesc();
     }
 
     @GetMapping("/user/email={email}")
-    public User getUserByEmail(
-            @RequestParam("email") String email
-    ){
+    public User getUserByEmail(@RequestParam("email") String email) {
         return userService.getUserByEmail(email).orElse(new User());
     }
 
@@ -65,9 +60,19 @@ public class BlogRESTController {
             @RequestParam("content") String content,
             @RequestParam("category") Category category,
             @RequestParam("userId") long userId
-    ){
+    ) {
         Optional<User> userOptional = userService.getUserById(userId);
-        userOptional.ifPresent(user -> postService.addPost(title,content,category,user));
-
+        if (userOptional.isPresent()) {
+            if (userOptional.get().isStatus()) {
+                postService.addPost(title, content, category, userOptional.get());
+            }
+        }
     }
+
+    @GetMapping("/posts")
+    public List<Post> getAllPosts(){
+        return postService.getAllPosts();
+    }
+
 }
+
