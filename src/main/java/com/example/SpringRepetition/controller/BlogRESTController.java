@@ -7,6 +7,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 public class BlogRESTController {
@@ -38,5 +39,17 @@ public class BlogRESTController {
             userService.deleteUser(userId);
         }catch (EmptyResultDataAccessException e){
         }
+    }
+
+    @GetMapping("/users")
+    public List<User> getAllUsers(){
+        return userService.getAllUsersOrderedByRegistrationDateTimeDesc();
+    }
+
+    @GetMapping("/user/email={email}")
+    public User getUserByEmail(
+            @RequestParam("email") String email
+    ){
+        return userService.getUserByEmail(email).orElse(new User());
     }
 }
