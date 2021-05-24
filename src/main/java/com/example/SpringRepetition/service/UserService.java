@@ -39,4 +39,8 @@ public class UserService {
     public Optional<User> getUserByEmail(String email){
         return userRepository.findFirstByEmail(email);
     }
+
+    public Optional<User> getUserById(long userId){
+        return userRepository.findById(userId);
+    }
 }

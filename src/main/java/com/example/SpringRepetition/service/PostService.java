@@ -15,7 +15,7 @@ public class PostService {
     @Autowired
     PostRepository postRepository;
 
-    public void addPost(String title, String content, User author, Category category){
+    public void addPost(String title, String content, Category category, User author){
         postRepository.save(new Post(title,content, LocalDateTime.now(),category, author));
     }
 }

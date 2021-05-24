@@ -1,6 +1,8 @@
 package com.example.SpringRepetition.controller;
 
+import com.example.SpringRepetition.model.Category;
 import com.example.SpringRepetition.model.User;
+import com.example.SpringRepetition.service.PostService;
 import com.example.SpringRepetition.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -8,12 +10,16 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @RestController
 public class BlogRESTController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    PostService postService;
 
     @PostMapping("/user/register")
     public void registerUser(
@@ -51,5 +57,17 @@ public class BlogRESTController {
             @RequestParam("email") String email
     ){
         return userService.getUserByEmail(email).orElse(new User());
+    }
+
+    @PostMapping("/post/addPost")
+    public void addPost(
+            @RequestParam("title") String title,
+            @RequestParam("content") String content,
+            @RequestParam("category") Category category,
+            @RequestParam("userId") long userId
+    ){
+        Optional<User> userOptional = userService.getUserById(userId);
+        userOptional.ifPresent(user -> postService.addPost(title,content,category,user));
+
     }
 }
