@@ -1,17 +1,24 @@
 package com.example.SpringRepetition.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.SpringRepetition.model.User;
+import com.example.SpringRepetition.service.UserService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @RestController
 public class BlogRESTController {
 
-    @GetMapping("/home/{name}&{status}")
-    public String homeWithName(
-            @PathVariable("name") String name,
-            @PathVariable("status") Boolean status
-        ) {
-        return status ? "Hello " + name + " on homepage": "Twoje konto jest nieaktywne";
+    @Autowired
+    UserService userService;
+
+    @PostMapping("/user/register")
+    public void registerUser(
+            @RequestParam("email") String email,
+            @RequestParam("password") String password
+    ){
+        User user = new User(email,password,LocalDateTime.now(),false);
+        userService.registerUser(user);
     }
 }
