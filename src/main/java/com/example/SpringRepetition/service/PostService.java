@@ -30,7 +30,7 @@ public class PostService {
     }
 
     public List<Post> getPostsByCategoryAndAuthor(Category category, User author){
-        return postRepository.findAllByCategoryAndAuthor(category, author, Sort.by(Sort.Direction.DESC, "dataAdded"));
+        return postRepository.findAllByCategoryAndAuthor(category, author, Sort.by(Sort.Direction.DESC, "dateAdded"));
     }
 
 }

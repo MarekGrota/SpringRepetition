@@ -10,6 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -88,7 +89,9 @@ public class BlogRESTController {
             @RequestParam("category") Category category,
             @RequestParam("userId") long userId
     ) {
-        return postService.getPostsByCategoryAndAuthor(category, userService.getUserById(userId).orElse(new User()));
+        if (userService.getUserById(userId).isPresent()) {
+            return postService.getPostsByCategoryAndAuthor(category, userService.getUserById(userId).get());
+        }
+        return new ArrayList<>();
     }
 }
-
