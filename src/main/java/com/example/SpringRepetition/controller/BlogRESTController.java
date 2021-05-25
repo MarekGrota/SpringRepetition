@@ -16,11 +16,14 @@ import java.util.Optional;
 @RestController
 public class BlogRESTController {
 
-    @Autowired
     UserService userService;
+    PostService postService;
 
     @Autowired
-    PostService postService;
+    public BlogRESTController(UserService userService, PostService postService) {
+        this.userService = userService;
+        this.postService = postService;
+    }
 
     @PostMapping("/user/register")
     public void registerUser(
