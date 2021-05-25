@@ -73,9 +73,22 @@ public class BlogRESTController {
     }
 
     @GetMapping("/posts")
-    public List<Post> getAllPosts(){
+    public List<Post> getAllPosts() {
         return postService.getAllPosts();
     }
 
+    @GetMapping("/posts/byCategory")
+    public List<Post> getPostsByCategory(
+            @RequestParam("category") Category category) {
+        return postService.getPostsByCategory(category);
+    }
+
+    @GetMapping("/posts/byCategoryAndAuthor")
+    public List<Post> getPostsByCategoryAndAuthor(
+            @RequestParam("category") Category category,
+            @RequestParam("userId") long userId
+    ) {
+        return postService.getPostsByCategoryAndAuthor(category, userService.getUserById(userId).orElse(new User()));
+    }
 }
 
