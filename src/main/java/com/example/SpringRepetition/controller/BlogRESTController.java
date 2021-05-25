@@ -77,5 +77,13 @@ public class BlogRESTController {
         return postService.getAllPosts();
     }
 
+    @GetMapping("/posts/byCategory")
+    public List<Post> getPostsByCategory(
+        @RequestParam("category") Category category){
+       return postService.getPostsByCategory(category);
+    }
+
+
+
 }
 
