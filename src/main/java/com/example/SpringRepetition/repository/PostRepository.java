@@ -18,7 +18,7 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
     List<Post> findAllByCategoryAndAuthor(Category category, User author, Sort sort);
 
-    List<Post> findAllByTitleInOrContentIn(List<String> titleWords, List<String> contentWords);
+    List<Post> findAllByTitleLikeOrContentLike(String titlePattern,String contentPattern);
 
     @Query(
             value = "SELECT p.category, count(*) FROM Post p GROUP BY p.category ORDER BY 2 DESC",

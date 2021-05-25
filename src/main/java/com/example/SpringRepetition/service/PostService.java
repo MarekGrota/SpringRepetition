@@ -33,4 +33,7 @@ public class PostService {
         return postRepository.findAllByCategoryAndAuthor(category, author, Sort.by(Sort.Direction.DESC, "dateAdded"));
     }
 
+    public List<Post> getPostsByTitleLikeOrContentLike(String keyWord){
+        return postRepository.findAllByTitleLikeOrContentLike("%"+keyWord+"%", "%"+keyWord+"%");
+    }
 }

@@ -10,9 +10,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 public class BlogRESTController {
@@ -93,5 +91,16 @@ public class BlogRESTController {
             return postService.getPostsByCategoryAndAuthor(category, userService.getUserById(userId).get());
         }
         return new ArrayList<>();
+    }
+
+    @GetMapping("/posts/keyWordsSearch")
+    public List<Post> getPostsByTitleLikeOrContentLike(String keyWords){
+        Set<Post> postSet = new HashSet<>();
+        for (String keyWord : keyWords.split(",")) {
+            postSet.addAll(postService.getPostsByTitleLikeOrContentLike(keyWord));
+        }
+        List<Post> filteredList = new ArrayList<>();
+        filteredList.addAll(postSet);
+        return filteredList;
     }
 }
